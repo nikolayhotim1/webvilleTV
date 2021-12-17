@@ -11,7 +11,10 @@ window.onload = function () {
     ];
 
     video = document.getElementById('video');
+
     video.addEventListener('ended', nextVideo, false);
+    video.addEventListener('error', errorHandler, false);
+
     playVideo(position);
 };
 
@@ -25,12 +28,20 @@ function nextVideo() {
     playVideo(position);
 }
 
+function errorHandler() {
+    video = document.getElementById('video');
+
+    if (video.error) {
+        video.poster = 'images/technicaldifficulties.jpg';
+    }
+}
+
 function playVideo(position) {
     video.src = `${playlist[position]}${getFormatExtension()}`;
 
     video.onloadeddata = function () {
-        console.log("Browser has loaded the current frame");
-        console.log(`Playing ${video.currentSrc}`);
+        console.log('Browser has loaded the current frame');
+        console.log(`Playing ${playlist[position]}`);
     };
 
     video.play();
